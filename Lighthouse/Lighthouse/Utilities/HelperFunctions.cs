@@ -95,6 +95,11 @@ namespace Lighthouse.Utilities
             new XmlSerializer(typeof(List<ColorTag>))
                 .Serialize(new FileStream(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite), ColorTags);
         }
+        internal static void SaveSettingsToFile(string file, LighthouseOptions ColorTags)
+        {
+            new XmlSerializer(typeof(LighthouseOptions))
+                .Serialize(new FileStream(file, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite), ColorTags);
+        }
 
         internal static void WriteOnOutputWindow(IVsOutputWindow provider, string text)
         {

@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using Lighthouse.UI;
 using Lighthouse.Utilities;
 using EnvDTE;
@@ -76,13 +77,27 @@ namespace Lighthouse
         internal static void Init()
         {
             Options = new LighthouseOptions
-                      {
-                          Blurred = BlurType.Selective,
-                          Blur = BlurIntensity.Medium,
-                          HighlightCorner = CornerStyle.RoundedCorner,
-                          OverrideStyles = false
-                      };
+            {
+                Blurred = BlurType.Selective,
+                Blur = BlurIntensity.Medium,
+                HighlightCorner = CornerStyle.RoundedCorner,
+                OverrideStyles = false
+            };
+
+            try
+            {
+                Options = (LighthouseOptions)new XmlSerializer(typeof(LighthouseOptions))
+                    .Deserialize(new FileStream(LighthouseOptions.localPath + LighthouseOptions.settingsFile,
+                                                FileMode.Open,
+                                                FileAccess.ReadWrite,
+                                                FileShare.ReadWrite));
+            }
+            catch (Exception)
+            {
+            }
+
             Options.LoadSettingsFromStorage();
+
             LoadColorTags();
         }
 
@@ -107,15 +122,16 @@ namespace Lighthouse
                 throw new NotSupportedException("Cannot create tool window");
             }
 
-            IVsWindowFrame windowFrame = (IVsWindowFrame) window.Frame;
+            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
+
         public static void LoadColorTags()
         {
             try
             {
                 if (dte == null)
-                    dte = (DTE) Package.GetGlobalService(typeof(DTE));
+                    dte = (DTE)Package.GetGlobalService(typeof(DTE));
 
                 string colorFile = new FileInfo(dte.Solution.FullName).DirectoryName + @"\solution.qm";
 
