@@ -1,60 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <Extern href="stdidcmd.h" />
   <Extern href="vsshlids.h" />
 
   <Commands package="guidLighthousePackage">
 
     <Groups>
-      <Group guid="guidLighthousePackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      <Group guid="guidLighthousePackageCmdSet"
+             id="MyMenuGroup"
+             priority="0x0600">
+        <Parent guid="guidSHLMainMenu"
+                id="IDM_VS_CTXT_CODEWIN" />
       </Group>
     </Groups>
 
     <Buttons>
-      <Button guid="guidLighthousePackageCmdSet" id="LighthouseId" priority="0x0100" type="Button">
-        <Parent guid="guidLighthousePackageCmdSet" id="MyMenuGroup"  />
-        
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="guidLighthousePackageCmdSet"
+              id="LighthouseId"
+              priority="0x0100"
+              type="Button">
+        <Parent guid="guidLighthousePackageCmdSet"
+                id="MyMenuGroup"  />
         <Strings>
           <ButtonText>Create Highlight</ButtonText>
         </Strings>
       </Button>
 
-      <Button guid="guidLighthousePackageCmdSet" id="cmdidLighthouseManagerCommand" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="guidLighthousePackageCmdSet"
+              id="cmdidLighthouseManagerCommand"
+              priority="0x0100"
+              type="Button">
+        <Parent guid="guidSHLMainMenu"
+                id="IDG_VS_WNDO_OTRWNDWS1" />
         <Strings>
-          <ButtonText>Lighthouse Manager</ButtonText>
+          <ButtonText>Lighthouse Keeper</ButtonText>
         </Strings>
       </Button>
     </Buttons>
-
-    <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\Lighthouse.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-    </Bitmaps>
   </Commands>
 
   <KeyBindings>
-    <KeyBinding guid="guidLighthousePackageCmdSet" id="LighthouseId" mod1="Control" key1="VK_ADD" editor="guidVSStd97" />
+    <KeyBinding guid="guidLighthousePackageCmdSet"
+                id="LighthouseId"
+                mod1="Control"
+                key1="VK_ADD"
+                editor="guidVSStd97" />
   </KeyBindings>
 
   <Symbols>
-    <GuidSymbol name="guidLighthousePackage" value="{f883a970-94e7-46ed-89f4-eb4e736a1905}" />
+    <GuidSymbol name="guidLighthousePackage"
+                value="{f883a970-94e7-46ed-89f4-eb4e736a1905}" />
 
-    <GuidSymbol name="guidLighthousePackageCmdSet" value="{2ebdfd89-9a11-4d8f-ba1c-f24d000cf038}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="LighthouseId" value="0x0100" />
-      <IDSymbol name="cmdidLighthouseManagerCommand" value="4129" />
-    </GuidSymbol>
-
-    <GuidSymbol name="guidImages" value="{d6a00005-be34-47fb-8db6-3a8946982912}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    <GuidSymbol name="guidLighthousePackageCmdSet"
+                value="{2ebdfd89-9a11-4d8f-ba1c-f24d000cf038}">
+      <IDSymbol name="MyMenuGroup"
+                value="0x1020" />
+      <IDSymbol name="LighthouseId"
+                value="0x0100" />
+      <IDSymbol name="cmdidLighthouseManagerCommand"
+                value="4129" />
     </GuidSymbol>
 
   </Symbols>

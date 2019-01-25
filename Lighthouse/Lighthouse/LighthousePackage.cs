@@ -33,6 +33,7 @@ namespace Lighthouse
             await Lighthouse.InitializeAsync(this);
         }
 
+
         #endregion Package Members
     }
 }

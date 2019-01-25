@@ -13,7 +13,7 @@ namespace Lighthouse
         public static readonly string localPath =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\QuadSpinner\\VSX\\";
 
-        public LighthouseOptions() { Directory.CreateDirectory(localPath); }
+        public LighthouseOptions() => Directory.CreateDirectory(localPath);
 
         [Category("Highlighting")]
         [DisplayName("Color Styles")]
@@ -35,32 +35,17 @@ namespace Lighthouse
 
         public void SaveSettingsToStorage()
         {
-            //HighlightCorner = dialog.HighlightCorner;
-            //Blur = dialog.Blur;
-            //Blurred = dialog.Blurred;
-            //OverrideStyles = dialog.OverrideStyles;
-            //ColorTags = dialog.ColorTags;
             Directory.CreateDirectory(localPath);
             HelperFunctions.SaveTagsToFile(localPath + settingsFile, ColorTags);
-
-            //base.SaveSettingsToStorage();
         }
 
         public void LoadSettingsFromStorage()
         {
-            //base.LoadSettingsFromStorage();
-
-            //dialog.HighlightCorner = HighlightCorner;
-            //dialog.Blur = Blur;
-            //dialog.Blurred = Blurred;
-            //dialog.OverrideStyles = OverrideStyles;
             try
             {
                 ColorTags = HelperFunctions.LoadTagsFromFile(localPath + settingsFile);
             }
             catch (Exception) { }
-
-            //dialog.ColorTags = ColorTags;
         }
     }
 }

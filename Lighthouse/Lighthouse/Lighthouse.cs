@@ -110,7 +110,6 @@ namespace Lighthouse
             IVsWindowFrame windowFrame = (IVsWindowFrame) window.Frame;
             ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
-
         public static void LoadColorTags()
         {
             try
@@ -130,6 +129,8 @@ namespace Lighthouse
                 {
                     ct = HelperFunctions.LoadTagsFromFile(colorFile);
                 }
+
+                colors.SetupColors();
 
                 foreach (var colorTag in ct)
                 {

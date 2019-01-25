@@ -77,10 +77,10 @@ namespace Lighthouse.UI
                     Criteria = selection,
                     isFullLine = true
                 };
-                foreach (ComboBoxItem l in Lighthouse.Options.ColorTags.Select(color => new ComboBoxItem
+                foreach (ComboBoxItem l in Lighthouse.colors.Select(color => new ComboBoxItem
                 {
-                    Foreground = new SolidColorBrush(color.ColorSwatch),
-                    Background = new SolidColorBrush(color.ColorSwatch)
+                    Foreground = new SolidColorBrush(color),
+                    Background = new SolidColorBrush(color)
                 }))
                 {
                     cboColors.Items.Add(l);
