@@ -145,7 +145,7 @@ namespace Lighthouse
                 {
                     ct = HelperFunctions.LoadTagsFromFile(colorFile);
                 }
-
+                
                 colors.SetupColors();
 
                 foreach (var colorTag in ct)

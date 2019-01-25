@@ -188,6 +188,7 @@ namespace Lighthouse.Utilities
 
         public static List<Color> SetupColors(this List<Color> colors)
         {
+            colors.Clear();
             colors.Add(HexToColor("#e4603c"));
             colors.Add(HexToColor("#efa48f"));
             colors.Add(HexToColor("#e4823c"));

@@ -10,6 +10,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using Lighthouse.Utilities;
 using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using Ookii.Dialogs.Wpf;
 
@@ -267,7 +268,7 @@ namespace Lighthouse.UI
 
             Lighthouse.LoadColorTags();
 
-            dte.ActiveDocument.ReplaceText(selection, selection);
+            RefreshDocument();
             Close();
         }
 
