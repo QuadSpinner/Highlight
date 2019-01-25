@@ -168,7 +168,7 @@ namespace Lighthouse.UI
 
         private void RefreshDocument()
         {
-            dte.ActiveDocument.ReplaceText(selection, selection, (int) vsFindOptions.vsFindOptionsMatchWholeWord);
+            dte.ActiveDocument.ReplaceText(selection, selection, (int)vsFindOptions.vsFindOptionsMatchWholeWord);
         }
 
         private void DeactivateHighlight()
@@ -342,11 +342,11 @@ namespace Lighthouse.UI
                                            if (colorTag == null)
                                                return;
 
+                                           UpdateLayout();
                                            CornerStyle HighlightCorner = Lighthouse.Options.HighlightCorner;
 
                                            t.Text = colorTag.Criteria;
 
-                                           UpdateLayout();
 
                                            r.Fill = new SolidColorBrush(Color.FromArgb(60,
                                                                                        colorTag.ColorSwatch.R,
@@ -370,6 +370,17 @@ namespace Lighthouse.UI
                                            r.Effect = null;
 
                                            colorTag.Blur = colorTag.Blur;
+                                           bool isLine = colorTag.isUnderline;
+
+                                           if (isLine)
+                                           {
+                                               r.Height = 4;
+                                               r.Margin = new Thickness(0, t.ActualHeight - 2, 0, 0);
+                                           }
+                                           else
+                                           {
+                                               r.Height = t.ActualHeight;
+                                           }
 
                                            if (colorTag.Blur != BlurIntensity.None)
                                            {
@@ -379,26 +390,27 @@ namespace Lighthouse.UI
                                                    RenderingBias = RenderingBias.Performance
                                                };
 
+
                                                switch (colorTag.Blur)
                                                {
                                                    case BlurIntensity.Low:
                                                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(80);
-                                                       ((BlurEffect)r.Effect).Radius = 4.0;
+                                                       ((BlurEffect)r.Effect).Radius = isLine ? 2 : 4.0;
                                                        break;
 
                                                    case BlurIntensity.Medium:
                                                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(120);
-                                                       ((BlurEffect)r.Effect).Radius = 7.0;
+                                                       ((BlurEffect)r.Effect).Radius = isLine ? 4 : 7.0;
                                                        break;
 
                                                    case BlurIntensity.High:
                                                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(170);
-                                                       ((BlurEffect)r.Effect).Radius = 11.0;
+                                                       ((BlurEffect)r.Effect).Radius = isLine ? 6 : 11.0;
                                                        break;
 
                                                    case BlurIntensity.Ultra:
                                                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(255);
-                                                       ((BlurEffect)r.Effect).Radius = 18.0;
+                                                       ((BlurEffect)r.Effect).Radius = isLine ? 8 : 20.0;
                                                        break;
                                                }
 

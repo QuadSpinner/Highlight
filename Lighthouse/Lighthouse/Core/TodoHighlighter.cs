@@ -217,7 +217,7 @@ namespace Lighthouse.Core
                 RadiusY = cornerRadius,
                 Width = markerGeometry.Bounds.Width,
                 Height = ct.isUnderline ? 4 : markerGeometry.Bounds.Height,
-                Stroke = new SolidColorBrush(ct.ColorSwatch)
+                Stroke = new SolidColorBrush(ct.ColorSwatch.ChangeAlpha(100))
             };
 
             if (ct.isFullLine)
@@ -237,27 +237,27 @@ namespace Lighthouse.Core
                         KernelType = KernelType.Gaussian,
                         RenderingBias = RenderingBias.Performance
                     };
-
+                    bool isLine = ct.isUnderline;
                     switch (ct.Blur)
                     {
                         case BlurIntensity.Low:
                             ((SolidColorBrush)r.Fill).Color.ChangeAlpha(80);
-                            ((BlurEffect)r.Effect).Radius = 4.0;
+                            ((BlurEffect)r.Effect).Radius = isLine ? 2 : 4.0;
                             break;
 
                         case BlurIntensity.Medium:
                             ((SolidColorBrush)r.Fill).Color.ChangeAlpha(120);
-                            ((BlurEffect)r.Effect).Radius = 7.0;
+                            ((BlurEffect)r.Effect).Radius = isLine ? 4 : 7.0;
                             break;
 
                         case BlurIntensity.High:
                             ((SolidColorBrush)r.Fill).Color.ChangeAlpha(170);
-                            ((BlurEffect)r.Effect).Radius = 11.0;
+                            ((BlurEffect)r.Effect).Radius = isLine ? 6 : 11.0;
                             break;
 
                         case BlurIntensity.Ultra:
                             ((SolidColorBrush)r.Fill).Color.ChangeAlpha(255);
-                            ((BlurEffect)r.Effect).Radius = 20.0;
+                            ((BlurEffect)r.Effect).Radius = isLine ? 8 : 20.0;
                             break;
 
                         case BlurIntensity.None:

@@ -121,8 +121,7 @@
                     CornerRadius="2">
 
                 <Grid x:Name="previewGrid" MaxHeight="512">
-                    <Rectangle x:Name="r"
-                               Height="{Binding ActualHeight, ElementName=t, Mode=OneWay}"
+                    <Rectangle x:Name="r" Height="14"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                StrokeThickness="3" />
