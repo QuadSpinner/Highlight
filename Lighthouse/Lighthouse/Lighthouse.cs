@@ -102,7 +102,7 @@ namespace Lighthouse
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
             ToolWindowPane window = package.FindToolWindow(typeof(LighthouseManager), 0, true);
-            if (null == window || null == window.Frame)
+            if (window?.Frame == null)
             {
                 throw new NotSupportedException("Cannot create tool window");
             }
@@ -176,7 +176,7 @@ namespace Lighthouse
                     }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
     }
 }

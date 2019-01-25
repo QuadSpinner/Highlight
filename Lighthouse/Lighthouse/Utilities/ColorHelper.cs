@@ -35,7 +35,8 @@ namespace Lighthouse.Utilities
         }
 
         public static Color Automatic
-        { get; private set; }
+        { get;
+        }
 
         public static Color UndefinedColor
         { get; }
@@ -48,9 +49,9 @@ namespace Lighthouse.Utilities
 
         public static Color CmykToColor(double c, double m, double y, double k)
         {
-            double r = 1 - (c / 100) * (1 - (k / 100)) - (k / 100);
-            double g = 1 - (m / 100) * (1 - (k / 100)) - (k / 100);
-            double b = 1 - (y / 100) * (1 - (k / 100)) - (k / 100);
+            double r = 1 - c / 100 * (1 - k / 100) - k / 100;
+            double g = 1 - m / 100 * (1 - k / 100) - k / 100;
+            double b = 1 - y / 100 * (1 - k / 100) - k / 100;
             return Color.FromRgb((byte)(255 * r), (byte)(255 * g), (byte)(255 * b));
         }
 
@@ -72,9 +73,9 @@ namespace Lighthouse.Utilities
             {
                 return new[] { 0, 0, 0, 1.0 };
             }
-            double computedC = 1 - (r / 255.0);
-            double computedM = 1 - (g / 255.0);
-            double computedY = 1 - (b / 255.0);
+            double computedC = 1 - r / 255.0;
+            double computedM = 1 - g / 255.0;
+            double computedY = 1 - b / 255.0;
             var min = Math.Min(computedC, Math.Min(computedM, computedY));
             computedC = (computedC - min) / (1 - min);
             computedM = (computedM - min) / (1 - min);
@@ -175,7 +176,7 @@ namespace Lighthouse.Utilities
             var spectrumColors = new Color[colorCount];
             for (int i = 0; i < colorCount; ++i)
             {
-                double hue = (i * 1.0) / (colorCount - 1);
+                double hue = i * 1.0 / (colorCount - 1);
                 spectrumColors[i] = HsvToColor(hue, 1.0, 1.0);
             }
             return spectrumColors;
@@ -288,8 +289,8 @@ namespace Lighthouse.Utilities
             {
                 value = "FF" + value.PadLeft(6, '0');
             }
-            uint u;
-            return uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out u) ? UIntToColor(u) : UndefinedColor;
+
+            return uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint u) ? UIntToColor(u) : UndefinedColor;
         }
 
         public static Color HsvToColor(byte hue, byte saturation, byte value, byte alpha = 255)
@@ -317,8 +318,8 @@ namespace Lighthouse.Utilities
                 var i = (int)Math.Truncate(h);
                 double f = h - i;
                 double p = v * (1.0 - s);
-                double q = v * (1.0 - (s * f));
-                double t = v * (1.0 - (s * (1.0 - f)));
+                double q = v * (1.0 - s * f);
+                double t = v * (1.0 - s * (1.0 - f));
                 switch (i)
                 {
                     case 0:
@@ -381,8 +382,8 @@ namespace Lighthouse.Utilities
                 var i = (int)Math.Floor(hue);
                 double f = hue - i;
                 double aa = val * (1 - sat);
-                double bb = val * (1 - (sat * f));
-                double cc = val * (1 - (sat * (1 - f)));
+                double bb = val * (1 - sat * f);
+                double cc = val * (1 - sat * (1 - f));
                 switch (i)
                 {
                     case 0:

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Lighthouse.Utilities
 {
@@ -107,11 +107,11 @@ namespace Lighthouse.Utilities
 
             Guid guidGeneral = VSConstants.GUID_OutWindowGeneralPane;
             if (ErrorHandler.Failed(outputWindow.GetPane(ref guidGeneral, out IVsOutputWindowPane windowPane)) ||
-                (null == windowPane))
+                null == windowPane)
             {
                 ErrorHandler.Failed(outputWindow.CreatePane(ref guidGeneral, "General", 1, 0));
                 if (ErrorHandler.Failed(outputWindow.GetPane(ref guidGeneral, out windowPane)) ||
-                (null == windowPane))
+                null == windowPane)
                 {
                     return;
                 }
