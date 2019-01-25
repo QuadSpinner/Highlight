@@ -5,14 +5,14 @@ Lighthouse is an open source extension for Visual Studio developed at [QuadSpinn
 
 It lets you arbitrarily highlight any piece of code without affecting existing color coding. With decorations such as blurring, contoured blocks, and full line highlighting it can make your code look attractive while making it much easier to identify specific variables or elements.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dOVZ4zHcBJE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/A5TjyWr7Fe8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Beta
+## Download
 
-Lighthouse is currently in beta. It will be updated as frequently as possible.
+[Download the latest release](https://github.com/QuadSpinner/Lighthouse/releases)
 
 
-## Requirements
+### Requirements
 
 Visual Studio 2017 Community Edition or higher
 
