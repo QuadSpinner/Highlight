@@ -22,6 +22,11 @@ namespace Lighthouse.Utilities
         [System.ComponentModel.DisplayName("Line")]
         public bool isFullLine { get; set; }
 
+        [Resettable]
+        [DefaultValue(false)]
+        [System.ComponentModel.DisplayName("Line")]
+        public bool isUnderline { get; set; }
+
         [System.ComponentModel.DisplayName("Active")]
         [Resettable]
         [DefaultValue(true)]

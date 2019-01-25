@@ -33,7 +33,7 @@ namespace Lighthouse
 
         internal static List<Color> colors = new List<Color>();
         internal static LighthouseOptions Options;
-        public static Dictionary<string, FormatInfo> keywordFormats = new Dictionary<string, FormatInfo>();
+        public static Dictionary<string, ColorTag> keywordFormats = new Dictionary<string, ColorTag>();
 
         private static DTE dte;
 
@@ -157,17 +157,7 @@ namespace Lighthouse
                         {
                             keywordFormats.Remove(colorTag.Criteria);
                             keywordFormats.Add(colorTag.Criteria,
-                                               new FormatInfo(
-                                                   Color.FromArgb(60,
-                                                                  colorTag.ColorSwatch.R,
-                                                                  colorTag.ColorSwatch.G,
-                                                                  colorTag.ColorSwatch.B),
-                                                   Color.FromArgb(100,
-                                                                  colorTag.ColorSwatch.R,
-                                                                  colorTag.ColorSwatch.G,
-                                                                  colorTag.ColorSwatch.B),
-                                                   colorTag.isFullLine,
-                                                   colorTag.Blur));
+                                               colorTag);
                         }
                     }
                     else
@@ -176,18 +166,7 @@ namespace Lighthouse
 
                         if (colorTag.isActive)
                         {
-                            keywordFormats.Add(colorTag.Criteria,
-                                               new FormatInfo(
-                                                   Color.FromArgb(60,
-                                                                  colorTag.ColorSwatch.R,
-                                                                  colorTag.ColorSwatch.G,
-                                                                  colorTag.ColorSwatch.B),
-                                                   Color.FromArgb(100,
-                                                                  colorTag.ColorSwatch.R,
-                                                                  colorTag.ColorSwatch.G,
-                                                                  colorTag.ColorSwatch.B),
-                                                   colorTag.isFullLine,
-                                                   colorTag.Blur));
+                            keywordFormats.Add(colorTag.Criteria, colorTag);
                         }
                     }
                 }

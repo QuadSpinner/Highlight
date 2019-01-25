@@ -70,7 +70,6 @@
     <Compile Include="Utilities\ColorHelper.cs" />
     <Compile Include="Utilities\ColorTag.cs" />
     <Compile Include="Utilities\Enums.cs" />
-    <Compile Include="Utilities\FormatInfo.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Outside.cs" />
   </ItemGroup>

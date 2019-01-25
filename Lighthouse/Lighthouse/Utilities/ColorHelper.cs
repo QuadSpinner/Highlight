@@ -8,18 +8,18 @@ namespace Lighthouse.Utilities
 {
     // --------------------------------------------------------------------------------------------------------------------
     // The MIT License (MIT)
-    // 
+    //
     // Copyright (c) 2012 Oystein Bjorke
-    // 
+    //
     // Permission is hereby granted, free of charge, to any person obtaining a copy of this software
     // and associated documentation files (the "Software"), to deal in the Software without
     // restriction, including without limitation the rights to use, copy, modify, merge, publish,
     // distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
     // Software is furnished to do so, subject to the following conditions:
-    // 
+    //
     // The above copyright notice and this permission notice shall be included in all copies or
     // substantial portions of the Software.
-    // 
+    //
     // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
     // BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
     // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -34,25 +34,23 @@ namespace Lighthouse.Utilities
             UndefinedColor = Color.FromArgb(0, 0, 0, 0);
         }
 
-        public static Color Automatic
-        { get;
-        }
+        public static Color Automatic { get; }
 
-        public static Color UndefinedColor
-        { get; }
+        public static Color UndefinedColor { get; }
 
         [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Global")]
-        public static Color ChangeAlpha(this Color c, byte alpha)
-        {
-            return Color.FromArgb(alpha, c.R, c.G, c.B);
-        }
+        public static Color ChangeAlpha(this Color c, byte alpha) => Color.FromArgb(alpha, c.R, c.G, c.B);
+
+        public static System.Drawing.Color MediaToDrawing(Color c) => System.Drawing.Color.FromArgb(100, c.R, c.G, c.B);
+
+        public static Color DrawingToMedia(System.Drawing.Color c) => Color.FromArgb(100, c.R, c.G, c.B);
 
         public static Color CmykToColor(double c, double m, double y, double k)
         {
             double r = 1 - c / 100 * (1 - k / 100) - k / 100;
             double g = 1 - m / 100 * (1 - k / 100) - k / 100;
             double b = 1 - y / 100 * (1 - k / 100) - k / 100;
-            return Color.FromRgb((byte)(255 * r), (byte)(255 * g), (byte)(255 * b));
+            return Color.FromRgb((byte) (255 * r), (byte) (255 * g), (byte) (255 * b));
         }
 
         public static double ColorDifference(Color c1, Color c2)
@@ -71,8 +69,9 @@ namespace Lighthouse.Utilities
         {
             if (r == 0 && g == 0 && b == 0)
             {
-                return new[] { 0, 0, 0, 1.0 };
+                return new[] {0, 0, 0, 1.0};
             }
+
             double computedC = 1 - r / 255.0;
             double computedM = 1 - g / 255.0;
             double computedY = 1 - b / 255.0;
@@ -81,7 +80,7 @@ namespace Lighthouse.Utilities
             computedM = (computedM - min) / (1 - min);
             computedY = (computedY - min) / (1 - min);
             double computedK = min;
-            return new[] { computedC, computedM, computedY, computedK };
+            return new[] {computedC, computedM, computedY, computedK};
         }
 
         public static string ColorToHex(this Color color)
@@ -107,6 +106,7 @@ namespace Lighthouse.Utilities
             {
                 s = delta / v;
             }
+
             if (s == 0)
             {
                 h = 0.0;
@@ -125,12 +125,14 @@ namespace Lighthouse.Utilities
                 {
                     h = 4 + (r - g) / delta;
                 }
+
                 h *= 60;
                 if (h < 0.0)
                 {
                     h = h + 360;
                 }
             }
+
             var hsv = new double[3];
             hsv[0] = h / 360.0;
             hsv[1] = s;
@@ -142,17 +144,17 @@ namespace Lighthouse.Utilities
         {
             double[] hsv1 = ColorToHsv(color);
             var hsv2 = new byte[3];
-            hsv2[0] = (byte)(hsv1[0] * 255);
-            hsv2[1] = (byte)(hsv1[1] * 255);
-            hsv2[2] = (byte)(hsv1[2] * 255);
+            hsv2[0] = (byte) (hsv1[0] * 255);
+            hsv2[1] = (byte) (hsv1[1] * 255);
+            hsv2[2] = (byte) (hsv1[2] * 255);
             return hsv2;
         }
 
         public static uint ColorToUint(this Color c)
         {
-            uint u = (uint)c.A << 24;
-            u += (uint)c.R << 16;
-            u += (uint)c.G << 8;
+            uint u = (uint) c.A << 24;
+            u += (uint) c.R << 16;
+            u += (uint) c.G << 8;
             u += c.B;
             return u;
         }
@@ -168,6 +170,7 @@ namespace Lighthouse.Utilities
             {
                 newHue += 1.0;
             }
+
             return HsvToColor(newHue, hsv[1], hsv[2]);
         }
 
@@ -179,6 +182,7 @@ namespace Lighthouse.Utilities
                 double hue = i * 1.0 / (colorCount - 1);
                 spectrumColors[i] = HsvToColor(hue, 1.0, 1.0);
             }
+
             return spectrumColors;
         }
 
@@ -285,12 +289,14 @@ namespace Lighthouse.Utilities
             {
                 return UndefinedColor;
             }
+
             if (value.Length <= 6)
             {
                 value = "FF" + value.PadLeft(6, '0');
             }
 
-            return uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint u) ? UIntToColor(u) : UndefinedColor;
+            return uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint u)
+                       ? UIntToColor(u) : UndefinedColor;
         }
 
         public static Color HsvToColor(byte hue, byte saturation, byte value, byte alpha = 255)
@@ -315,7 +321,8 @@ namespace Lighthouse.Utilities
                 {
                     h = h / 60;
                 }
-                var i = (int)Math.Truncate(h);
+
+                var i = (int) Math.Truncate(h);
                 double f = h - i;
                 double p = v * (1.0 - s);
                 double q = v * (1.0 - s * f);
@@ -359,7 +366,8 @@ namespace Lighthouse.Utilities
                         break;
                 }
             }
-            return Color.FromArgb(alpha, (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+
+            return Color.FromArgb(alpha, (byte) (r * 255), (byte) (g * 255), (byte) (b * 255));
         }
 
         public static Color HsvToColor(double hue, double sat, double val, double alpha = 1.0)
@@ -378,8 +386,9 @@ namespace Lighthouse.Utilities
                 {
                     hue = 0;
                 }
+
                 hue *= 6.0;
-                var i = (int)Math.Floor(hue);
+                var i = (int) Math.Floor(hue);
                 double f = hue - i;
                 double aa = val * (1 - sat);
                 double bb = val * (1 - sat * f);
@@ -423,7 +432,8 @@ namespace Lighthouse.Utilities
                         break;
                 }
             }
-            return Color.FromArgb((byte)(alpha * 255), (byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+
+            return Color.FromArgb((byte) (alpha * 255), (byte) (r * 255), (byte) (g * 255), (byte) (b * 255));
         }
 
         public static double HueDifference(Color c1, Color c2)
@@ -437,10 +447,12 @@ namespace Lighthouse.Utilities
             {
                 dh -= 1.0;
             }
+
             if (dh < -0.5)
             {
                 dh += 1.0;
             }
+
             double e = dh * dh;
             return Math.Sqrt(e);
         }
@@ -451,15 +463,15 @@ namespace Lighthouse.Utilities
             double g = c0.G * (1 - x) + c1.G * x;
             double b = c0.B * (1 - x) + c1.B * x;
             double a = c0.A * (1 - x) + c1.A * x;
-            return Color.FromArgb((byte)a, (byte)r, (byte)g, (byte)b);
+            return Color.FromArgb((byte) a, (byte) r, (byte) g, (byte) b);
         }
 
         public static Color UIntToColor(uint color)
         {
-            var a = (byte)(color >> 24);
-            var r = (byte)(color >> 16);
-            var g = (byte)(color >> 8);
-            var b = (byte)(color >> 0);
+            var a = (byte) (color >> 24);
+            var r = (byte) (color >> 16);
+            var g = (byte) (color >> 8);
+            var b = (byte) (color >> 0);
             return Color.FromArgb(a, r, g, b);
         }
     }

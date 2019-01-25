@@ -17,7 +17,7 @@ namespace Lighthouse.UI
 {
     public partial class CreateHighlights
     {
-        private const string solutionFile = @"\solution.qm";
+        private const string solutionFile = @"\solution.lhtags";
         private bool allowColoring;
         private bool allowSelectionChange;
         private BlurIntensity Blur;
@@ -162,7 +162,13 @@ namespace Lighthouse.UI
             if (allowColoring && !string.IsNullOrWhiteSpace(selection) && !string.IsNullOrEmpty(selection))
             {
                 CreateTag(selection, ((SolidColorBrush)((ComboBoxItem)cboColors.SelectedItem).Foreground).Color);
+                RefreshDocument();
             }
+        }
+
+        private void RefreshDocument()
+        {
+            dte.ActiveDocument.ReplaceText(selection, selection, (int) vsFindOptions.vsFindOptionsMatchWholeWord);
         }
 
         private void DeactivateHighlight()
@@ -194,7 +200,7 @@ namespace Lighthouse.UI
             }
 
             Lighthouse.LoadColorTags();
-
+            RefreshDocument();
             Close();
         }
 
@@ -203,16 +209,17 @@ namespace Lighthouse.UI
             if (Lighthouse.Options.ColorTags.Any(x => x.Criteria == selection))
             {
                 ColorTag ct = Lighthouse.Options.ColorTags.Find(x => x.Criteria == selection);
-                ct.ColorSwatch = ct.ColorSwatch;
-                ct.isFullLine = ct.isFullLine;
-                ct.Blur = ct.Blur;
-                ct.isActive = ct.isActive;
+                ct.ColorSwatch = ((SolidColorBrush)((ComboBoxItem)cboColors.SelectedItem).Foreground).Color;
+                ct.isFullLine = chkLine.IsChecked == true;
+                ct.isUnderline = chkUnderline.IsChecked == true;
+                ct.Blur = (BlurIntensity)cboBlur.SelectedIndex;
+                ct.isActive = chkActive.IsChecked == true;
 
                 Lighthouse.Options.SaveSettingsToStorage();
 
                 Lighthouse.LoadColorTags();
             }
-
+            RefreshDocument();
             Close();
         }
 
@@ -235,6 +242,8 @@ namespace Lighthouse.UI
             }
             else
             {
+
+                //! --- SOLUTION ------
                 List<ColorTag> temp =
                     HelperFunctions.LoadTagsFromFile(new FileInfo(dte.Solution.FullName).DirectoryName + solutionFile);
 
@@ -246,7 +255,11 @@ namespace Lighthouse.UI
                 temp.Add(new ColorTag
                 {
                     Criteria = selection,
-                    ColorSwatch = c
+                    ColorSwatch = c,
+                    isFullLine = chkLine.IsChecked == true,
+                    isUnderline = chkUnderline.IsChecked == true,
+                    Blur = (BlurIntensity)cboBlur.SelectedIndex,
+                    isActive = chkActive.IsChecked == true,
                 });
 
                 HelperFunctions.SaveTagsToFile(new FileInfo(dte.Solution.FullName).DirectoryName + solutionFile, temp);
@@ -278,23 +291,28 @@ namespace Lighthouse.UI
 
                     allowSelectionChange = true;
                     cboBlur.SelectedIndex = (int)colorTag.Blur;
+                    chkLine.IsChecked = colorTag.isFullLine;
+                    chkUnderline.IsChecked = colorTag.isUnderline;
+                    chkActive.IsChecked = colorTag.isActive;
+
+                    chkSolution.Visibility = Visibility.Collapsed;
                 }
                 else // NEW
                 {
                     stackExists.Visibility = btnChange.Visibility = Visibility.Collapsed;
                     btnCreate.Visibility = Visibility.Visible;
-
+                    chkSolution.Visibility = Visibility.Visible;
                     allowSelectionChange = true;
 
                     cboColors.SelectedIndex = new Random().Next(0, cboColors.Items.Count - 1);
                     colorTag = new ColorTag
                     {
                         Criteria = selection,
-                        ColorSwatch =
-                                       ((SolidColorBrush)((ComboBoxItem)cboColors.SelectedItem).Foreground).Color,
-                        isActive = true,
-                        isFullLine = false,
-                        Blur = Lighthouse.Options.Blur
+                        ColorSwatch = ((SolidColorBrush)((ComboBoxItem)cboColors.SelectedItem).Foreground).Color,
+                        isFullLine = chkLine.IsChecked == true,
+                        isUnderline = chkUnderline.IsChecked == true,
+                        Blur = (BlurIntensity)cboBlur.SelectedIndex,
+                        isActive = chkActive.IsChecked == true
                     };
                     cboBlur.SelectedIndex = (int)Lighthouse.Options.Blur;
                 }
@@ -380,7 +398,7 @@ namespace Lighthouse.UI
 
                                                    case BlurIntensity.Ultra:
                                                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(255);
-                                                       ((BlurEffect)r.Effect).Radius = 20.0;
+                                                       ((BlurEffect)r.Effect).Radius = 18.0;
                                                        break;
                                                }
 

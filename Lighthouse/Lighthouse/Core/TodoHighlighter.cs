@@ -1,3 +1,7 @@
+using Lighthouse.Utilities;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Formatting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,10 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
-using Lighthouse.Utilities;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Formatting;
 
 namespace Lighthouse.Core
 {
@@ -149,14 +149,14 @@ namespace Lighthouse.Core
                             {
                                 case BlurType.BlurAll:
                                     t = new Thickness(2, -3, 2, -3);
-                                    
+
                                     break;
 
                                 case BlurType.Selective:
                                     t = new Thickness(2,
-                                                      kvp.Value.Blurred != BlurIntensity.None ? -3 : 0,
+                                                      kvp.Value.Blur != BlurIntensity.None ? -3 : 0,
                                                       2,
-                                                      kvp.Value.Blurred != BlurIntensity.None ? -3 : 0);
+                                                      kvp.Value.Blur != BlurIntensity.None ? -3 : 0);
                                     break;
                             }
 
@@ -167,13 +167,9 @@ namespace Lighthouse.Core
                                                          IntersectionDetail.Empty))
                                 {
                                     geometries.Add(markerGeometry);
-                                    AddMarker(span, 
-                                              markerGeometry, 
-                                              kvp.Value, 
-                                              kvp.Value.isFullLine, 
-                                              isBlurred == BlurType.BlurAll 
-                                                  ? Lighthouse.Options.Blur
-                                                  : kvp.Value.Blurred);
+                                    AddMarker(span,
+                                              markerGeometry,
+                                              kvp.Value);
                                 }
                             }
                         }
@@ -184,9 +180,7 @@ namespace Lighthouse.Core
 
         private void AddMarker(SnapshotSpan span,
                                Geometry markerGeometry,
-                               FormatInfo formatInfo,
-                               bool isFullLine = false,
-                               BlurIntensity Blurred = BlurIntensity.None)
+                               ColorTag ct)
         {
             double cornerRadius;
 
@@ -218,15 +212,15 @@ namespace Lighthouse.Core
 
             Rectangle r = new Rectangle
             {
-                Fill = formatInfo.Background,
+                Fill = new SolidColorBrush(ct.ColorSwatch.ChangeAlpha(60)),
                 RadiusX = cornerRadius,
                 RadiusY = cornerRadius,
                 Width = markerGeometry.Bounds.Width,
-                Height = markerGeometry.Bounds.Height,
-                Stroke = formatInfo.Outline
+                Height = ct.isUnderline ? 4 : markerGeometry.Bounds.Height,
+                Stroke = new SolidColorBrush(ct.ColorSwatch)
             };
 
-            if (isFullLine)
+            if (ct.isFullLine)
             {
                 r.Width = textView.ViewportWidth - markerGeometry.Bounds.Left;
             }
@@ -234,9 +228,9 @@ namespace Lighthouse.Core
             if (isBlurred != BlurType.NoBlur)
             {
                 if (isBlurred == BlurType.BlurAll)
-                    Blurred = Lighthouse.Options.Blur;
+                    ct.Blur = Lighthouse.Options.Blur;
 
-                if (Blurred != BlurIntensity.None)
+                if (ct.Blur != BlurIntensity.None)
                 {
                     r.Effect = new BlurEffect
                     {
@@ -244,7 +238,7 @@ namespace Lighthouse.Core
                         RenderingBias = RenderingBias.Performance
                     };
 
-                    switch (Blurred)
+                    switch (ct.Blur)
                     {
                         case BlurIntensity.Low:
                             ((SolidColorBrush)r.Fill).Color.ChangeAlpha(80);
@@ -269,7 +263,6 @@ namespace Lighthouse.Core
                         case BlurIntensity.None:
                             r.Effect = null;
                             break;
-
                     }
 
                     r.Stroke = null;
@@ -278,7 +271,7 @@ namespace Lighthouse.Core
 
             // Align the image with the top of the bounds of the text geometry
             Canvas.SetLeft(r, markerGeometry.Bounds.Left);
-            Canvas.SetTop(r, markerGeometry.Bounds.Top);
+            Canvas.SetTop(r, ct.isUnderline ? (markerGeometry.Bounds.Top + markerGeometry.Bounds.Height - 2) : markerGeometry.Bounds.Top);
 
             adornmentLayer.AddAdornment(AdornmentPositioningBehavior.TextRelative, span, null, r, null);
         }

@@ -58,7 +58,7 @@
                           VerticalContentAlignment="Center"
                           SelectedIndex="1"
                           Style="{DynamicResource TextCombo}"
-                          ToolTip="Highlight Background Blur">
+                          ToolTip="Highlight Background Blur" Width="128">
                     <ComboBoxItem Content="No Blur" Tag="0" />
                     <ComboBoxItem Content="Low Blur" Tag="1" />
                     <ComboBoxItem Content="Medium Blur" Tag="2" />
@@ -74,6 +74,24 @@
                               Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"
                               Style="{DynamicResource CommandBarToggleButton}"
                               ToolTip="Highlight entire line" />
+                <ToggleButton x:Name="chkUnderline"
+                    Height="24"
+                    Margin="1,0,0,0"
+                    Padding="8,0"
+                    VerticalAlignment="Center"
+                    Content="Underline"
+                    Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"
+                    Style="{DynamicResource CommandBarToggleButton}"
+                    ToolTip="Underline only" />
+                <ToggleButton x:Name="chkSolution"
+                    Height="24"
+                    Margin="1,0,0,0"
+                    Padding="8,0"
+                    VerticalAlignment="Center"
+                    Content="SLN Only"
+                    Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"
+                    Style="{DynamicResource CommandBarToggleButton}"
+                    ToolTip="Create this rule for this solution only" />
                 <StackPanel x:Name="stackExists" Orientation="Horizontal">
                     <ToggleButton x:Name="chkActive"
                                   Height="24"
