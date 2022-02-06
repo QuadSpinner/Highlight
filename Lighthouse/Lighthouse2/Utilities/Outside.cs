@@ -37,7 +37,7 @@ namespace Lighthouse2.Utilities
         /// </returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ColorHelper.HexToColor((string)value);
+            return Helper.HexToColor((string)value);
         }
     }
 

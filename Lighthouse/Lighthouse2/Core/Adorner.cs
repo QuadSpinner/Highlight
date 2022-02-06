@@ -21,7 +21,7 @@ namespace Lighthouse2.Core
         private readonly IWpfTextView view;
 
         private Thickness tBlur = new(2, -3, 2, -3);
-        private Thickness tNone = new(2, 0, 2, 0);
+        private Thickness tNone = new(0, 0, 0, 0);
         private LightHouseOptions options;
         private char[] firstChars;
         private IEnumerable<HighlightTag> tags;

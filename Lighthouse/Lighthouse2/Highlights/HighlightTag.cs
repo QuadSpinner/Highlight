@@ -5,6 +5,11 @@ namespace Lighthouse2
 {
     public class HighlightTag
     {
+        public HighlightTag()
+        {
+            
+        }
+
         public HighlightTag(string criteria)
         {
             Criteria = criteria;
