@@ -11,6 +11,8 @@ namespace Lighthouse2.Utilities
 
         public static List<Color> colors = new();
 
+        public static Color Selected;
+
         public static Color Undefined { get; } = Color.FromArgb(0, 0, 0, 0);
 
         [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Global")]

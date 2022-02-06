@@ -49,6 +49,9 @@
     <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\EditColor.xaml.cs">
+      <DependentUpon>EditColor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\Adorner.cs" />
     <Compile Include="Core\AdornerTextViewCreationListener.cs" />
     <Compile Include="Highlights\Enums.cs" />
@@ -117,6 +120,12 @@
     <PackageReference Include="Ookii.Dialogs.Wpf">
       <Version>5.0.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Commands\EditColor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

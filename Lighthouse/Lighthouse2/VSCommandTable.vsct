@@ -9,7 +9,7 @@
   <Commands package="Lighthouse2">
     <Groups>
       <Group guid="Lighthouse2" id="MenuGroup" priority="0x0600">
-        <Parent guid="VSMainMenu" id="Tools"/>
+                <Parent guid="VSMainMenu" id="CodeWindow.AnnotationGroup"/>
       </Group>
     </Groups>
 
