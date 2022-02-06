@@ -12,6 +12,8 @@ namespace Lighthouse2.Highlights
 
         public bool IsUnder() => Shape is TagShape.LineUnder or TagShape.TagUnder;
         public bool IsLine() => Shape is TagShape.Line or TagShape.LineUnder;
+
+        public override string ToString() => Criteria;
     }
 
 

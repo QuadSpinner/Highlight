@@ -13,25 +13,17 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace Lighthouse2.Core
 {
-    /// <summary>
-    ///     Adorner places red boxes behind all the "a"s in the editor window
-    /// </summary>
     internal sealed class Adorner
     {
         private const double cornerRadius = 2.0;
-
-        /// <summary>
-        ///     The layer of the adornment.
-        /// </summary>
+        
         private readonly IAdornmentLayer layer;
-
-        /// <summary>
-        ///     Text view where the adornment is created.
-        /// </summary>
+        
         private readonly IWpfTextView view;
 
         private Thickness tBlur = new(2, -3, 2, -3);
         private Thickness tNone = new(2, 0, 2, 0);
+        private LightHouseOptions options;
 
         public Adorner(IWpfTextView view)
         {
@@ -41,7 +33,14 @@ namespace Lighthouse2.Core
             }
 
             Helper.InitDefaults();
-            Helper.Load();
+            
+            options = LightHouseOptions.GetLiveInstanceAsync().Result;
+
+            if (options.ColorTags == null)
+            {
+                options.ColorTags = Helper.GetFillerTags().ToArray();
+                options.Save();
+            }
 
             layer = view.GetAdornmentLayer("LighthouseHighlighter");
 
@@ -51,6 +50,10 @@ namespace Lighthouse2.Core
 
         internal void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
+
+            if (options.ColorTags == null || options.ColorTags.Length == 0)
+                return;
+
             foreach (ITextViewLine line in e.NewOrReformattedLines)
             {
                 CreateVisuals(line);
@@ -65,16 +68,16 @@ namespace Lighthouse2.Core
             int end = line.End;
             List<Geometry> geometries = new();
 
-            var firstChars = Helper.keywordFormats.Keys.Select(k => k[0]).Distinct().ToArray();
+            var firstChars = options.ColorTags.Select(k => k.Criteria[0]).Distinct().ToArray();
 
             // ~~ Main Loop
             for (int i = start; i < end; i++)
             {
                 if (firstChars.Contains(view.TextSnapshot[i]))
                 {
-                    foreach (var kvp in Helper.keywordFormats)
+                    foreach (var tag in options.ColorTags)
                     {
-                        string keyword = kvp.Key.Trim();
+                        string keyword = tag.Criteria.Trim();
 
                         if (view.TextSnapshot[i] == keyword[0] &&
                             i <= end - keyword.Length &&
@@ -84,7 +87,7 @@ namespace Lighthouse2.Core
                         {
                             SnapshotSpan span = new(view.TextSnapshot, Span.FromBounds(i, i + keyword.Length));
 
-                            Geometry markerGeometry = textViewLines.GetMarkerGeometry(span, true, kvp.Value.Blur == BlurIntensity.None ? tNone : tBlur);
+                            Geometry markerGeometry = textViewLines.GetMarkerGeometry(span, true, tag.Blur == BlurIntensity.None ? tNone : tBlur);
 
                             if (markerGeometry != null)
                             {
@@ -92,7 +95,7 @@ namespace Lighthouse2.Core
                                                          IntersectionDetail.Empty))
                                 {
                                     geometries.Add(markerGeometry);
-                                    AddMarker(span, markerGeometry, kvp.Value);
+                                    AddMarker(span, markerGeometry, tag);
                                 }
                             }
                         }
@@ -124,9 +127,8 @@ namespace Lighthouse2.Core
             {
                 r.Width = view.ViewportWidth - markerGeometry.Bounds.Left;
             }
-
-
-            if (ct.Blur != BlurIntensity.None)
+            
+            if (options.AllowBlurEffects && ct.Blur != BlurIntensity.None)
             {
                 r.Effect = new BlurEffect
                 {
