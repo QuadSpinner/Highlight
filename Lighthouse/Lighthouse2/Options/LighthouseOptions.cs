@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
 
 namespace Lighthouse2
 {
@@ -8,20 +8,29 @@ namespace Lighthouse2
     internal class OptionsProvider
     {
         [ComVisible(true)]
-        public class LightHouseOptionsOptions : BaseOptionPage<LightHouseOptions>
+        public class LighthouseOptions : BaseOptionPage<Options>
         {
-            
         }
     }
 
     [ComVisible(true)]
-    public class LightHouseOptions : BaseOptionModel<LightHouseOptions>
+    public class Options : BaseOptionModel<Options>
     {
-        [XmlIgnore] internal bool NeedsUpdate = false;
 
-        [Category("Highlighting")]
-        [DisplayName("Highlights")]
-        public HighlightTag[] ColorTags { get; set; } = null;
+        public Options()
+        {
+            Debug.WriteLine("LOADED!");
+        }
+
+        [Category("Tags")]
+        [DisplayName("Global Rules")]
+        [Description("These rules are applied across all projects.")]
+        public HighlightTag[] ColorTags { get; set; } = null;  
+        
+        [Category("Tags")]
+        [DisplayName("Solution Rules")]
+        [Description("These rules are applied only to the current solution.")]
+        public HighlightTag[] SolutionTags { get; set; } = null;
 
 
         [Category("Appearance")]
@@ -32,11 +41,5 @@ namespace Lighthouse2
         public Performance Performance { get; set; } = Performance.Normal;
 
     }
-
-    public enum Performance
-    {
-        Normal,
-        Fast,
-        NoEffects
-    }
+    
 }

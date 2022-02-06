@@ -15,7 +15,7 @@ namespace Lighthouse2.Commands
             if (string.IsNullOrEmpty(selection) || string.IsNullOrWhiteSpace(selection))
                 return;
 
-            var options = LightHouseOptions.GetLiveInstanceAsync().Result;
+            var options = Options.GetLiveInstanceAsync().Result;
             options.ColorTags ??= Helper.GetFillerTags().ToArray();
 
             var tags = options.ColorTags.ToList();

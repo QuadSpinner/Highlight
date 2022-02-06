@@ -8,7 +8,7 @@
         Line,
         LineUnder
     }
-    
+
     [Serializable]
     public enum BlurIntensity
     {
@@ -17,5 +17,12 @@
         Medium = 2,
         High = 3,
         Ultra = 4
+    }
+    
+    public enum Performance
+    {
+        Normal,
+        Fast,
+        NoEffects
     }
 }

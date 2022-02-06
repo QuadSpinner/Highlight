@@ -9,6 +9,7 @@ using Lighthouse2.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
+using Path = System.IO.Path;
 
 namespace Lighthouse2.Core
 {
@@ -22,7 +23,7 @@ namespace Lighthouse2.Core
 
         private Thickness tBlur = new(2, -3, 2, -3);
         private Thickness tNone = new(0, 0, 0, 0);
-        private LightHouseOptions options;
+        private Options options;
         private char[] firstChars;
         private IEnumerable<HighlightTag> tags;
         private Performance performance = Performance.Normal;
@@ -36,7 +37,7 @@ namespace Lighthouse2.Core
 
             Helper.InitDefaults();
 
-            options = LightHouseOptions.GetLiveInstanceAsync().Result;
+            options = Options.GetLiveInstanceAsync().Result;
 
             if (options.ColorTags == null)
             {
@@ -44,7 +45,7 @@ namespace Lighthouse2.Core
                 options.Save();
             }
 
-            LightHouseOptions.Saved += LightHouseOptions_Saved;
+            Options.Saved += LightHouseOptions_Saved;
 
             RefreshCriteria();
 
@@ -54,12 +55,13 @@ namespace Lighthouse2.Core
             this.view.LayoutChanged += OnLayoutChanged;
         }
 
-        private void LightHouseOptions_Saved(LightHouseOptions obj) => RefreshCriteria();
+        private void LightHouseOptions_Saved(Options obj) => RefreshCriteria();
 
         private void RefreshCriteria()
         {
             performance = options.Performance;
             tags = options.ColorTags.Where(x => x.IsActive);
+            //string path = Path.GetDirectoryName(VS.Solutions.GetCurrentSolution().FullPath) + "\\.vs\\lighthouse.xml";
             firstChars = options.ColorTags.Select(k => k.Criteria[0]).Distinct().ToArray();
         }
 
