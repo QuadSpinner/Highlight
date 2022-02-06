@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Core\Adorner.cs" />
     <Compile Include="Core\AdornerTextViewCreationListener.cs" />
+    <Compile Include="Highlights\Enums.cs" />
     <Compile Include="Highlights\HighlightTag.cs" />
     <Compile Include="Options\LighthouseOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,7 +62,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\ColorHelper.cs" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\Outside.cs" />
     <Compile Include="VSCommandTable.cs">

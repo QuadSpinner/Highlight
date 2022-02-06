@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
-using Lighthouse2.Highlights;
 using Lighthouse2.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -16,14 +15,17 @@ namespace Lighthouse2.Core
     internal sealed class Adorner
     {
         private const double cornerRadius = 2.0;
-        
+
         private readonly IAdornmentLayer layer;
-        
+
         private readonly IWpfTextView view;
 
         private Thickness tBlur = new(2, -3, 2, -3);
         private Thickness tNone = new(2, 0, 2, 0);
         private LightHouseOptions options;
+        private char[] firstChars;
+        private IEnumerable<HighlightTag> tags;
+        private Performance performance = Performance.Normal;
 
         public Adorner(IWpfTextView view)
         {
@@ -33,7 +35,7 @@ namespace Lighthouse2.Core
             }
 
             Helper.InitDefaults();
-            
+
             options = LightHouseOptions.GetLiveInstanceAsync().Result;
 
             if (options.ColorTags == null)
@@ -42,16 +44,28 @@ namespace Lighthouse2.Core
                 options.Save();
             }
 
+            LightHouseOptions.Saved += LightHouseOptions_Saved;
+
+            RefreshCriteria();
+
             layer = view.GetAdornmentLayer("LighthouseHighlighter");
 
             this.view = view;
             this.view.LayoutChanged += OnLayoutChanged;
         }
 
+        private void LightHouseOptions_Saved(LightHouseOptions obj) => RefreshCriteria();
+
+        private void RefreshCriteria()
+        {
+            performance = options.Performance;
+            tags = options.ColorTags.Where(x => x.IsActive);
+            firstChars = options.ColorTags.Select(k => k.Criteria[0]).Distinct().ToArray();
+        }
+
         internal void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
-
-            if (options.ColorTags == null || options.ColorTags.Length == 0)
+            if (tags == null || !tags.Any())
                 return;
 
             foreach (ITextViewLine line in e.NewOrReformattedLines)
@@ -68,14 +82,12 @@ namespace Lighthouse2.Core
             int end = line.End;
             List<Geometry> geometries = new();
 
-            var firstChars = options.ColorTags.Select(k => k.Criteria[0]).Distinct().ToArray();
-
             // ~~ Main Loop
             for (int i = start; i < end; i++)
             {
                 if (firstChars.Contains(view.TextSnapshot[i]))
                 {
-                    foreach (var tag in options.ColorTags)
+                    foreach (var tag in tags)
                     {
                         string keyword = tag.Criteria.Trim();
 
@@ -127,12 +139,12 @@ namespace Lighthouse2.Core
             {
                 r.Width = view.ViewportWidth - markerGeometry.Bounds.Left;
             }
-            
-            if (options.AllowBlurEffects && ct.Blur != BlurIntensity.None)
+
+            if (performance != Performance.NoEffects && ct.Blur != BlurIntensity.None)
             {
                 r.Effect = new BlurEffect
                 {
-                    KernelType = KernelType.Gaussian,
+                    KernelType = performance == Performance.Normal ? KernelType.Gaussian : KernelType.Box,
                     RenderingBias = RenderingBias.Performance
                 };
 
@@ -140,23 +152,23 @@ namespace Lighthouse2.Core
                 switch (ct.Blur)
                 {
                     case BlurIntensity.Low:
-                        ((SolidColorBrush) r.Fill).Color.ChangeAlpha(80);
-                        ((BlurEffect) r.Effect).Radius = isLine ? 2 : 4.0;
+                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(80);
+                        ((BlurEffect)r.Effect).Radius = isLine ? 2 : 4.0;
                         break;
 
                     case BlurIntensity.Medium:
-                        ((SolidColorBrush) r.Fill).Color.ChangeAlpha(120);
-                        ((BlurEffect) r.Effect).Radius = isLine ? 4 : 7.0;
+                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(120);
+                        ((BlurEffect)r.Effect).Radius = isLine ? 4 : 7.0;
                         break;
 
                     case BlurIntensity.High:
-                        ((SolidColorBrush) r.Fill).Color.ChangeAlpha(170);
-                        ((BlurEffect) r.Effect).Radius = isLine ? 6 : 11.0;
+                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(170);
+                        ((BlurEffect)r.Effect).Radius = isLine ? 6 : 11.0;
                         break;
 
                     case BlurIntensity.Ultra:
-                        ((SolidColorBrush) r.Fill).Color.ChangeAlpha(255);
-                        ((BlurEffect) r.Effect).Radius = isLine ? 8 : 20.0;
+                        ((SolidColorBrush)r.Fill).Color.ChangeAlpha(255);
+                        ((BlurEffect)r.Effect).Radius = isLine ? 8 : 20.0;
                         break;
                 }
 

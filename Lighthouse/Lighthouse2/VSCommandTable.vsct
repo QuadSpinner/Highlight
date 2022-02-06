@@ -18,15 +18,23 @@
     <Buttons>
       <Button guid="Lighthouse2" id="CreateHighlight" priority="0x0100" type="Button">
         <Parent guid="Lighthouse2" id="MenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="StatusInformation" />
+        <Icon guid="ImageCatalogGuid" id="AddKeyframe" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>Create Mark</ButtonText>
+          <ButtonText>Create/Edit Mark</ButtonText>
           <LocCanonicalName>.Lighthouse2.CreateHighlight</LocCanonicalName>
         </Strings>
       </Button>
     </Buttons>
   </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="Lighthouse2"
+                id="CreateHighlight"
+                mod1="Control"
+                key1="VK_ADD"
+                editor="guidVSStd97" />
+  </KeyBindings>
 
   <Symbols>
     <GuidSymbol name="Lighthouse2" value="{e6f482eb-859f-4dab-928c-fbd2f0201cbb}">
