@@ -33,15 +33,11 @@ namespace Lighthouse2.Core
         private Thickness tBlur = new(2, -3, 2, -3);
         private Thickness tNone = new(2, 0, 2, 0);
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Adorner" /> class.
-        /// </summary>
-        /// <param name="view">Text view to create the adornment for</param>
         public Adorner(IWpfTextView view)
         {
             if (view == null)
             {
-                throw new ArgumentNullException("view");
+                throw new ArgumentNullException(nameof(view));
             }
 
             Helper.InitDefaults();
@@ -53,19 +49,6 @@ namespace Lighthouse2.Core
             this.view.LayoutChanged += OnLayoutChanged;
         }
 
-        /// <summary>
-        ///     Handles whenever the text displayed in the view changes by adding the adornment to any reformatted lines
-        /// </summary>
-        /// <remarks>
-        ///     <para>This event is raised whenever the rendered text displayed in the <see cref="ITextView" /> changes.</para>
-        ///     <para>
-        ///         It is raised whenever the view does a layout (which happens when DisplayTextLineContainingBufferPosition is
-        ///         called or in response to text or classification changes).
-        ///     </para>
-        ///     <para>It is also raised whenever the view scrolls horizontally or when its size changes.</para>
-        /// </remarks>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
         internal void OnLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
             foreach (ITextViewLine line in e.NewOrReformattedLines)
@@ -173,11 +156,6 @@ namespace Lighthouse2.Core
                         ((SolidColorBrush) r.Fill).Color.ChangeAlpha(255);
                         ((BlurEffect) r.Effect).Radius = isLine ? 8 : 20.0;
                         break;
-
-                    default:
-                    case BlurIntensity.None:
-                        r.Effect = null;
-                        break;
                 }
 
                 r.Stroke = null;
@@ -185,6 +163,7 @@ namespace Lighthouse2.Core
 
             // Align the image with the top of the bounds of the text geometry
             Canvas.SetLeft(r, markerGeometry.Bounds.Left);
+
             if (ct.IsUnder())
             {
                 Canvas.SetTop(r, markerGeometry.Bounds.Top + markerGeometry.Bounds.Height - 2);

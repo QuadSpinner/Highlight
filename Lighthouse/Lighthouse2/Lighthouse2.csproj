@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="Utilities\ColorHelper.cs" />
     <Compile Include="Utilities\Helper.cs" />
+    <Compile Include="Utilities\LighthouseOptions.cs" />
     <Compile Include="Utilities\Outside.cs" />
     <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
