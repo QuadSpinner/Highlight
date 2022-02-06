@@ -1,20 +1,22 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Lighthouse2;
 
-[assembly: AssemblyTitle(Vsix.Name)]
-[assembly: AssemblyDescription(Vsix.Description)]
+[assembly: AssemblyTitle("Lighthouse")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(Vsix.Author)]
-[assembly: AssemblyProduct(Vsix.Name)]
-[assembly: AssemblyCopyright(Vsix.Author)]
+[assembly: AssemblyCompany("QuadSpinner")]
+[assembly: AssemblyProduct("Lighthouse")]
+[assembly: AssemblyCopyright("QuadSpinner / Dax Pandhi")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion(Vsix.Version)]
-[assembly: AssemblyFileVersion(Vsix.Version)]
+[assembly: AssemblyVersion("2.0.0.1")]
+[assembly: AssemblyFileVersion("2.0.0.1")]
+[assembly: NeutralResourcesLanguage("en-US")]
 
 namespace Lighthouse2.Properties
 {

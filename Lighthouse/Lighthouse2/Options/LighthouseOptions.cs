@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
+using Lighthouse2.Core;
 
 namespace Lighthouse2
 {
@@ -20,17 +22,32 @@ namespace Lighthouse2
         public Options()
         {
             Debug.WriteLine("LOADED!");
+            VS.Events.SolutionEvents.OnBeforeOpenSolution += SolutionEvents_OnBeforeOpenSolution;
+
+            //Saved += Options_Saved;
+        }
+
+        //private void Options_Saved(Options obj)
+        //{
+        //  string path = Path.GetDirectoryName(VS.Solutions.) + "\\.vs\\lighthouse.xml";
+        //  Debug.WriteLine(path);
+        //}
+
+        private void SolutionEvents_OnBeforeOpenSolution(string obj)
+        {
+            string path = Path.GetDirectoryName(obj) + "\\.vs\\lighthouse.xml";
+            Debug.WriteLine(path);
         }
 
         [Category("Tags")]
         [DisplayName("Global Rules")]
         [Description("These rules are applied across all projects.")]
-        public HighlightTag[] ColorTags { get; set; } = null;  
-        
+        public HighlightTag[] ColorTags { get; set; }
+
         [Category("Tags")]
         [DisplayName("Solution Rules")]
         [Description("These rules are applied only to the current solution.")]
-        public HighlightTag[] SolutionTags { get; set; } = null;
+        public HighlightTag[] SolutionTags { get; set; }
 
 
         [Category("Appearance")]
@@ -41,5 +58,5 @@ namespace Lighthouse2
         public Performance Performance { get; set; } = Performance.Normal;
 
     }
-    
+
 }

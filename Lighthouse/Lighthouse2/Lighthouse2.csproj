@@ -4,6 +4,16 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LighthousePackage.ico</ApplicationIcon>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,6 +57,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\EditColor.xaml.cs">
@@ -54,8 +65,8 @@
     </Compile>
     <Compile Include="Core\Adorner.cs" />
     <Compile Include="Core\AdornerTextViewCreationListener.cs" />
-    <Compile Include="Highlights\Enums.cs" />
-    <Compile Include="Highlights\HighlightTag.cs" />
+    <Compile Include="Core\Enums.cs" />
+    <Compile Include="Core\HighlightTag.cs" />
     <Compile Include="Options\LighthouseOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\CreateHighlight.cs" />
@@ -65,8 +76,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\Helper.cs" />
-    <Compile Include="Utilities\Outside.cs" />
+    <Compile Include="Core\Helper.cs" />
     <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,6 +84,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="LighthousePackage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -116,9 +130,6 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5234">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Ookii.Dialogs.Wpf">
-      <Version>5.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using EnvDTE;
-using Lighthouse2.Utilities;
+using Lighthouse2.Core;
 
 namespace Lighthouse2.Commands
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using Lighthouse2.Utilities;
+using Lighthouse2.Core;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Lighthouse2.Commands

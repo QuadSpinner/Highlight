@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Lighthouse2.4b62eb00-6ee8-4808-bb29-de3102a042ac" Version="2.0" Language="en-US" Publisher="QuadSpinner" />
+        <Identity Id="Lighthouse2.4b62eb00-6ee8-4808-bb29-de3102a042ac" Version="2.0.0.1" Language="en-US" Publisher="QuadSpinner" />
         <DisplayName>Lighthouse</DisplayName>
         <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <MoreInfo>https://github.com/QuadSpinner/Lighthouse</MoreInfo>
+        <License>License.txt</License>
         <Icon>LighthousePackage.ico</Icon>
         <PreviewImage>LighthousePackage.png</PreviewImage>
+        <Tags>C#,Highlighting,Productivity</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0]">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>

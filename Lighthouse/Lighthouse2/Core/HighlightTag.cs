@@ -1,7 +1,6 @@
 ﻿using System.Windows.Media;
-using Lighthouse2.Utilities;
 
-namespace Lighthouse2
+namespace Lighthouse2.Core
 {
     public class HighlightTag
     {

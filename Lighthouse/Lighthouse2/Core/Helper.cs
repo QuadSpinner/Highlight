@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Media;
 
-namespace Lighthouse2.Utilities
+namespace Lighthouse2.Core
 {
     public static class Helper
     {
@@ -11,7 +11,7 @@ namespace Lighthouse2.Utilities
 
         public static List<Color> colors = new();
 
-        public static Color Selected;
+        public static string LastSolution;
 
         public static Color Undefined { get; } = Color.FromArgb(0, 0, 0, 0);
 

@@ -1,4 +1,4 @@
-﻿namespace Lighthouse2
+﻿namespace Lighthouse2.Core
 {
     [Serializable]
     public enum TagShape
