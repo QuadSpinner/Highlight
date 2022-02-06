@@ -4,10 +4,13 @@
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                       xmlns:shell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
                        xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
-                       Title="Modify color"
+                       Title="Modify Tag"
                        Width="480"
                        toolkit:Themes.UseVsTheme="False"
+                       Background="{DynamicResource {x:Static shell:VsBrushes.CommandBarGradientKey}}"
+                       Foreground="{DynamicResource {x:Static shell:VsBrushes.WindowTextKey}}"
                        ResizeMode="NoResize"
                        SizeToContent="Height"
                        Topmost="True"
@@ -19,18 +22,20 @@
                     DockPanel.Dock="Bottom"
                     Orientation="Horizontal">
             <Button x:Name="btnModify"
-                    Padding="12,1,12,1"
+                    Padding="16,2,16,2"
                     Content="Modify"
                     IsDefault="True" />
             <Button x:Name="btnCancel"
                     Margin="8,0,0,0"
-                    Padding="12,1,12,1"
+                    Padding="16,2,16,2"
                     Content="Cancel"
                     IsCancel="True" />
         </StackPanel>
 
         <Border MinHeight="48"
-                Margin="0,8,0,0"
+                Margin="16,1,16,0"
+                Background="{DynamicResource {x:Static shell:VsBrushes.ComboBoxBackgroundKey}}"
+                BorderBrush="{DynamicResource {x:Static shell:VsBrushes.ComboBoxBorderKey}}"
                 BorderThickness="1"
                 CornerRadius="2"
                 DockPanel.Dock="Bottom">
@@ -48,50 +53,59 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontFamily="Consolas"
-                           Foreground="{Binding Foreground, ElementName=userControl}"
+                           FontSize="14"
+                           Foreground="{DynamicResource {x:Static platform:CommonControlsColors.TextBoxTextBrushKey}}"
                            Text="Sample Text"
                            TextTrimming="CharacterEllipsis" />
             </Grid>
         </Border>
 
-        <StackPanel Margin="8"
-                    DockPanel.Dock="Top"
-                    Orientation="Horizontal">
-            <TextBox x:Name="txtCriteria"
-                     Width="120"
-                     Margin="0,0,8,0" />
-            <ComboBox x:Name="cboShape"
-                      Width="110"
-                      Margin="0,0,8,0"
-                      SelectedIndex="0">
-                <ComboBoxItem Content="Tag" />
-                <ComboBoxItem Content="Underline Tag" />
-                <ComboBoxItem Content="Full Line" />
-                <ComboBoxItem Content="Full Underline" />
-            </ComboBox>
+        <Border Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" DockPanel.Dock="Top">
 
-            <ComboBox x:Name="cboBlur"
-                      Width="110"
-                      Margin="0,0,8,0"
-                      SelectedIndex="0">
-                <ComboBoxItem Content="No Blur" />
-                <ComboBoxItem Content="Low Blur" />
-                <ComboBoxItem Content="Medium Blur" />
-                <ComboBoxItem Content="High Blur" />
-                <ComboBoxItem Content="Ultra Blur" />
-            </ComboBox>
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <Label VerticalAlignment="Center" Content="Shape" />
+                <ComboBox x:Name="cboShape"
+                          Width="110"
+                          Margin="0,0,8,0"
+                          VerticalAlignment="Center"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="Tag" />
+                    <ComboBoxItem Content="Underline Tag" />
+                    <ComboBoxItem Content="Full Line" />
+                    <ComboBoxItem Content="Full Underline" />
+                </ComboBox>
 
-            <CheckBox x:Name="chkActive"
-                      Margin="0,0,8,0"
-                      VerticalAlignment="Center"
-                      Content="Active" />
-        </StackPanel>
-        <ListBox x:Name="lstColors" Margin="8,0,8,8" MinHeight="60">
+                <Label VerticalAlignment="Center" Content="Blur" />
+                <ComboBox x:Name="cboBlur"
+                          Width="110"
+                          Margin="0,0,8,0"
+                          VerticalAlignment="Center"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="None" />
+                    <ComboBoxItem Content="Low" />
+                    <ComboBoxItem Content="Medium" />
+                    <ComboBoxItem Content="High" />
+                    <ComboBoxItem Content="Ultra" />
+                </ComboBox>
+
+                <CheckBox x:Name="chkActive"
+                          Margin="0,0,8,0"
+                          VerticalAlignment="Center"
+                          Content="Rule is active" />
+            </StackPanel>
+        </Border>
+        <ListBox x:Name="lstColors"
+                 Width="460"
+                 MinHeight="60"
+                 Margin="8,8,8,8"
+                 Background="{DynamicResource {x:Static platform:ThemedDialogColors.ListBoxBrushKey}}"
+                 BorderThickness="0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True"
-                               ItemHeight="24"
-                               ItemWidth="24"
+                    <WrapPanel MaxWidth="460"
+                               IsItemsHost="True"
+                               ItemHeight="28"
+                               ItemWidth="28"
                                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
                 </ItemsPanelTemplate>

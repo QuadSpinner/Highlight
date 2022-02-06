@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Windows.Threading;
 using Lighthouse2.Utilities;
 using MessageBox = System.Windows.MessageBox;
 
@@ -36,14 +35,14 @@ namespace Lighthouse2.Commands
 
             cboShape.SelectedIndex = (int)TagToEdit.Shape;
             cboBlur.SelectedIndex = (int)TagToEdit.Blur;
-            txtCriteria.Text = TagToEdit.Criteria;
+            //txtCriteria.Text = TagToEdit.Criteria;
             chkActive.IsChecked = TagToEdit.IsActive;
 
-            txtCriteria.TextChanged += (_, __) => CreatePreview();
+            //txtCriteria.TextChanged += (_, __) => CreatePreview();
             cboBlur.SelectionChanged += (_, __) => CreatePreview();
             cboShape.SelectionChanged += (_, __) => CreatePreview();
             lstColors.SelectionChanged += (_, __) => CreatePreview();
-
+            
             CreatePreview();
         }
 
@@ -55,10 +54,10 @@ namespace Lighthouse2.Commands
         {
             TagToEdit.Shape = (TagShape)cboShape.SelectedIndex;
             TagToEdit.Blur = (BlurIntensity)cboBlur.SelectedIndex;
-            TagToEdit.Criteria = txtCriteria.Text;
+            //TagToEdit.Criteria = txtCriteria.Text;
             TagToEdit.IsActive = chkActive.IsChecked == true;
             TagToEdit.Color = (Color)(lstColors.SelectedItem as ListBoxItem).Tag;
-            this.DialogResult = true;
+            DialogResult = true;
             Close();
         }
 
@@ -72,11 +71,11 @@ namespace Lighthouse2.Commands
                     return;
 
 
-                HighlightTag tag = new HighlightTag
+                HighlightTag tag = new()
                 {
                     Shape = (TagShape)cboShape.SelectedIndex,
                     Blur = (BlurIntensity)cboBlur.SelectedIndex,
-                    Criteria = txtCriteria.Text,
+                    Criteria = TagToEdit.Criteria,
                     IsActive = chkActive.IsChecked == true,
                     Color = (Color)(lstColors.SelectedItem as ListBoxItem).Tag
                 };
@@ -127,11 +126,11 @@ namespace Lighthouse2.Commands
                 r.Fill = new SolidColorBrush(Color.FromArgb(60, tag.Color.R, tag.Color.G, tag.Color.B));
                 r.Stroke = new SolidColorBrush(Color.FromArgb(100, tag.Color.R, tag.Color.G, tag.Color.B));
 
-                double Vert = tag.Blur != BlurIntensity.None ? 8 : 6;
-                const double Horz = 6; //tag.isFullLine ? 1920 : 4;
+                double Vert = tag.Blur != BlurIntensity.None ? 4 : 2;
+                const double Horz = 2; //tag.isFullLine ? 1920 : 4;
 
-                r.Width = isLine ? previewGrid.ActualWidth - 8 : t.ActualWidth + 3;
-                t.Text = txtCriteria.Text;
+                r.Width = isLine ? previewGrid.ActualWidth - 8 : t.ActualWidth + 2;
+                t.Text = tag.Criteria;
                 t.Padding = new Thickness(Horz, Vert, Horz, Vert);
 
                 if (isLine)
