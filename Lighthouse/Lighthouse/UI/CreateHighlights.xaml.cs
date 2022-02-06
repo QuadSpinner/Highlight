@@ -169,7 +169,7 @@ namespace Lighthouse.UI
 
         private void RefreshDocument()
         {
-            dte.ActiveDocument.ReplaceText(selection, selection, (int)vsFindOptions.vsFindOptionsMatchWholeWord);
+            dte.ActiveDocument.ReplaceText(selection, selection, (int)vsFindOptions.vsFindOptionsMatchCase);
         }
 
         private void DeactivateHighlight()
@@ -192,9 +192,8 @@ namespace Lighthouse.UI
             }
             else
             {
-                List<ColorTag> temp =
-                    HelperFunctions.LoadTagsFromFile(new FileInfo(dte.Solution.FullName).DirectoryName +
-                                                     solutionFile);
+                List<ColorTag> temp = HelperFunctions.LoadTagsFromFile(new FileInfo(dte.Solution.FullName).DirectoryName +
+                                                                       solutionFile);
 
                 temp.Remove(temp.First(x => x.Criteria == selection));
                 HelperFunctions.SaveTagsToFile(new FileInfo(dte.Solution.FullName).DirectoryName + solutionFile, temp);
@@ -236,7 +235,11 @@ namespace Lighthouse.UI
                 Lighthouse.Options.ColorTags.Add(new ColorTag
                 {
                     Criteria = criteria,
-                    ColorSwatch = c
+                    ColorSwatch = c,
+                    isFullLine = chkLine.IsChecked == true,
+                    isUnderline = chkUnderline.IsChecked == true,
+                    Blur = (BlurIntensity)cboBlur.SelectedIndex,
+                    isActive = chkActive.IsChecked == true,
                 });
 
                 Lighthouse.Options.SaveSettingsToStorage();
@@ -245,8 +248,7 @@ namespace Lighthouse.UI
             {
 
                 //! --- SOLUTION ------
-                List<ColorTag> temp =
-                    HelperFunctions.LoadTagsFromFile(new FileInfo(dte.Solution.FullName).DirectoryName + solutionFile);
+                List<ColorTag> temp = HelperFunctions.LoadTagsFromFile(new FileInfo(dte.Solution.FullName).DirectoryName + solutionFile);
 
                 if (temp.Any(x => x.Criteria == selection))
                 {

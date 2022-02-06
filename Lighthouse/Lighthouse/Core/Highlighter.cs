@@ -15,19 +15,14 @@ using System.Windows.Shapes;
 
 namespace Lighthouse.Core
 {
-    [SuppressMessage("ReSharper", "ClassCanBeSealed.Local")]
-    public class TodoHighlighter
+    public class Highlighter
     {
-        //private Button bT = new Button();
-        //private bool isOnCanvas;
-
         private IAdornmentLayer adornmentLayer;
         private BlurType isBlurred = BlurType.Selective;
         private IWpfTextView textView;
 
-        public TodoHighlighter(IWpfTextView view)
+        public Highlighter(IWpfTextView view)
         {
-            //Init();
             if (Lighthouse.Options == null)
                 Lighthouse.Init();
 
@@ -260,6 +255,7 @@ namespace Lighthouse.Core
                             ((BlurEffect)r.Effect).Radius = isLine ? 8 : 20.0;
                             break;
 
+                        default:
                         case BlurIntensity.None:
                             r.Effect = null;
                             break;

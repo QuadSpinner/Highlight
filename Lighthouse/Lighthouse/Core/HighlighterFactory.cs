@@ -15,7 +15,7 @@ namespace Lighthouse.Core
     [ContentType("html")]
     [ContentType("XML")]
     [TextViewRole(PredefinedTextViewRoles.Document)]
-	internal sealed class TodoHighlighterFactory : IWpfTextViewCreationListener
+	internal sealed class HighlighterFactory : IWpfTextViewCreationListener
 	{
 		/// <summary>
 		/// Defines the adornment layer for the adornment. This layer is ordered 
@@ -34,7 +34,7 @@ namespace Lighthouse.Core
 		[SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
 		public void TextViewCreated(IWpfTextView textView)
 		{
-			new TodoHighlighter(textView);
+			new Highlighter(textView);
 		}
 
 	}
