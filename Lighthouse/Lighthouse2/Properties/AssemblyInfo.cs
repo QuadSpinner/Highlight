@@ -16,7 +16,7 @@ using Lighthouse2;
 [assembly: AssemblyVersion(Vsix.Version)]
 [assembly: AssemblyFileVersion(Vsix.Version)]
 
-namespace System.Runtime.CompilerServices
+namespace Lighthouse2.Properties
 {
     public class IsExternalInit { }
 }

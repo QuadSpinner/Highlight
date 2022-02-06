@@ -1,4 +1,4 @@
-﻿namespace Lighthouse2
+﻿namespace Lighthouse2.Commands
 {
     [Command(PackageIds.CreateHighlight)]
     internal sealed class CreateHighlight : BaseCommand<CreateHighlight>

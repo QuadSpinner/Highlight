@@ -5,7 +5,7 @@
         <DisplayName>Lighthouse2</DisplayName>
         <Description xml:space="preserve">Empty VSIX Project.</Description>
         <Icon>LighthousePackage.ico</Icon>
-        <PreviewImage>Resources\Icon.png</PreviewImage>
+        <PreviewImage>LighthousePackage.png</PreviewImage>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
