@@ -1,2 +1,3 @@
-# Lighthouse
-A code highlighting solution for Visual Studio.
+ARCHIVED!
+
+New version: https://github.com/QuadSpinner/Highlighter 
